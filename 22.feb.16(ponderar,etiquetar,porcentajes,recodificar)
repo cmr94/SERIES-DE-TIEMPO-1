@@ -1,0 +1,70 @@
+#importar base ENOE
+install.packages("foreign")
+require(foreign)
+BASE_ENOE<-read.dbf("C:\\Users\\SALA-C1\\Desktop\\SDEMT215.dbf")
+sdem215<-data.frame(BASE_ENOE)
+
+
+#RECODIFICAR
+str (sdem215)
+attach (sdem215)
+table (SEX)
+table (EDA)
+EDA1 <- as.numeric (as.character(EDA))##cambia numerico
+table (EDA1)
+install.packages("car")
+require (car)
+gedad <- Recode (EDA, '1:4 = 2 ; 5: 95 = 1') ### redoficando un rango 
+table (gedad)
+#rm (gedad)
+gedad1 <- recode(gedad, "96=1; 97=2") # recodifico generando una variable "gedad"
+table (gedad)
+#revisar pq no funciona
+sdem215$EDA <- factor(sdem215$EDA,
+                      levels = c(1,2,98, 99, 100),
+                      labels = c("red", "blue", "green","m", "g")) 
+table (EDA)
+str(gedad)
+base1 <- data.frame (SEX, gedad)
+View (base1)
+detach (sdem215)
+attach (base1)
+base1$gedad <- factor(base1$gedad ,
+                      levels = c(1,2,98, 99, 100),
+                      labels = c("red", "blue", "green","m", "g")) 
+View (base1)
+require (xlsx)
+write.xlsx(base1, "/home/sergio/Escritorio/prueba.xlsx")
+
+
+### RECODIFICAR Y ETIQUETAR IMSSISSSTE, TAMAÑO EMPRESA Y POSICION OCUPACION
+
+
+#PONDERAR CASOS
+install.packages("questionr")
+require(questionr)
+c0<-table(SEX)
+c0
+c1<-wtd.table(SEX,weights=FAC)
+c1
+sum(c1)
+write.csv(c1,file='PEA.csv')
+
+#PORCENTAJES
+
+tabrama<-wtd.table(SEX,weights=FAC)
+c1.1<-round(tabrama/margin.table(tabrama)*100,2)
+c1.1<-round(tabrama/sum(tabrama)*100,2)#equivalente
+margin.table(tabrama)#suma (sum)
+c1.1
+
+#ETIQUETAR
+
+sdem215$SEX<-ordered(sdem215$SEX,levels=c(1,2),labels=c("HOMBRES","MUJERES"))
+c2<-wtd.table(sdem215$SEX,weights=sdem215$FAC)
+C2
+
+sdem215$NAC_MES<-ordered(sdem215$NAC_MES,levels=c("01","02","03","04","05","06","07","08","09","10","11","12","99"),labels=c("ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE","n.e"))
+c3<-wtd.table(NAC_MES,weights=(FAC))
+c3
+View(c3)
