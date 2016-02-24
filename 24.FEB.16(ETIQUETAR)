@@ -1,0 +1,30 @@
+#CLASE 24 DE FEB 
+
+#Importar base ENOE
+require(foreign)
+BASE_ENOE<-read.dbf("C:\\Users\\SALA-C9\\Desktop\\COE1T215.dbf")
+#COPIA
+COE1T215<-data.frame(BASE_ENOE)
+#TRABAJAR CON COLIMA
+COLIMA<-subset(COE1T215, (ENT=="06"))
+attach (COLIMA)
+require (car)
+
+#ETIQUETAR TABLAS
+COLIMA$P1<-ordered(COLIMA$P1,levels=c(1,2),labels=c("SI TRABAJO","NO TRABAJO"))
+COLIMA$P3L<- ordered(COLIMA$P3L, levels=c("01","02","03","04","05","06","07","08","09","10","11","99"),labels=c("1 PERSONA","2 A 5 PERSONAS","6 A 10 PERSONAS","11 A 15 PERSONAS","16 A 20 PERSONAS","21 A 30 PERSONAS","31 A 50 PERSONAS","51 A 100 PERSONAS","101 A 250 PERSONAS","251 A 500 PERSONAS","501 Y MÁS PERSONAS","NO SABE" )) 
+COLIMA$P5<- ordered(COLIMA$P5, levels=c("1","2","3","9"),labels=c("SI", "NO TRABAJO LA SEMANA PASADA","NO SE ENCONTRO EN ESA SITUACION","NO SABE")) 
+COLIMA$P2E<- ordered(COLIMA$P2E, levels=c("1","2","3","4","5","6","9"),labels=c("una persona temporalmente ausente de su
+actividad u oficio", "pensionado o jubilado de su empleo","estudiante","una persona que se dedica a los quehaceres de su","una persona con alguna limitación física o mental que le impide trabajar por el resto de su vida", "Otra condición", "No sabe")) 
+
+#COMBINAR TABLAS
+table(COLIMA$P3L,COLIMA$P1)
+table(COLIMA$P5,COLIMA$P1)
+table(COLIMA$P2E,COLIMA$P1)
+
+
+#EXPANDIR TABLAS
+require(questionr)
+TABLAexp1<-wtd.table(COLIMA$P3L,COLIMA$P1,weights=COLIMA$FAC)
+TABLAexp2<-wtd.table(COLIMA$P5,COLIMA$P1,weights=COLIMA$FAC)
+TABLAexp3<-wtd.table(COLIMA$P2E,COLIMA$P1,weights=COLIMA$FAC)
