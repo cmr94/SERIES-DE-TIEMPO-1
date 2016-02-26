@@ -1,0 +1,18 @@
+###CLASE 15 DE FEB 
+##IVAN RAMON JARDON RODRIGUEZ
+
+#importar base ENOE
+install.packages("foreign")
+require(foreign)
+BASE_ENOE<-read.dbf("C:\\Users\\SAQLA-C12\\Desktop\\SDEMT215.dbf")
+
+#extraer ciertos campos de una base de datos
+precod1<-subset(BASE_ENOE, ((R_DEF=="00") & (C_RES=="1" | C_RES=="3") & (as.numeric(as.character(EDA))>=15 & as.numeric(as.character(EDA))<=98)),
+                select = c(EDA,SEX,HRSOCUP,CLASE2,CLASE1,CLASE3))
+
+#ESCOGER BASE PARA TRABAJAR
+attach(precod1)
+hist(CLASE2, main="Grafica1. Distribucuion de la poblacion de 15 años o mas 2015",
+      xlab="Tipo de ocupada", ylab="poblacion(miles)",
+      xlim=c(1,4), ylim=c(0,200000),
+      border= T, pch=18, col=c("lightsalmon1","maroon4","maroon1","maroon3"))
