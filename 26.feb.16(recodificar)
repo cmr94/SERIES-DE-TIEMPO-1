@@ -1,0 +1,47 @@
+#CLASE 26  DE FEBRERO
+#IVAN RAMON JARDON RODRIGUEZ
+
+rm(list=ls())
+
+require(foreign)
+base=read.dbf("C:\\Users\\SALA-C2\\Desktop\\SDEMT215.dbf")
+SDEMT215<-data.frame(base)
+
+#Recodificar
+
+#metodo 1
+SDEMT215$CLASE2.1[as.numeric(SDEMT215$CLASE2)>=0 & as.numeric(SDEMT215$CLASE2)<=2]<-1
+SDEMT215$CLASE2.1[as.numeric(SDEMT215$CLASE2)>=3 & as.numeric(SDEMT215$CLASE2)<=4]<-2
+
+"metodo 2"
+attach(SDEMT215)
+SDEMT215$CLASE2.2<-ifelse(as.numeric(CLASE2)>=1 & as.numeric(CLASE2)<=2,1, 
+                  ifelse(as.numeric(CLASE2)==3, 2 , 3)) 
+
+detach(SDEMT215)
+require(questionr)
+table(SDEMT215$CLASE2.1)
+table(SDEMT215$CLASE2.2)
+
+
+#*************************************************EJERCICIO********************************************************
+
+#METODO 1
+SDEMT215$EDAD2[as.numeric(as.character(SDEMT215$EDA))>=0 & as.numeric(as.character(SDEMT215$EDA))<=14]<-1
+SDEMT215$EDAD2[as.numeric(as.character(SDEMT215$EDA))>=15 & as.numeric(as.character(SDEMT215$EDA))<=29]<-2
+SDEMT215$EDAD2[as.numeric(as.character(SDEMT215$EDA))>=30 & as.numeric(as.character(SDEMT215$EDA))<=59]<-3
+SDEMT215$EDAD2[as.numeric(as.character(SDEMT215$EDA))>=60 & as.numeric(as.character(SDEMT215$EDA))<98]<-4
+SDEMT215$EDAD2[as.numeric(as.character(SDEMT215$EDA))>97]<-5
+
+SDEMT215$EDAD2<-ordered(SDEMT215$EDAD2,levels=c(1,2,3,4,5),labels=c("Niños", "Jovenes", "Adultos", "Adultos Mayores", "N.E."))
+table(SDEMT215$EDAD2)
+
+#METODO 2
+SDEMT215$EDAD1<-ifelse(as.numeric(as.character(SDEMT215$EDA))>=0 & as.numeric(as.character(SDEMT215$EDA))<=14 , 1,
+                ifelse(as.numeric(as.character(SDEMT215$EDA))>=15 & as.numeric(as.character(SDEMT215$EDA))<=29 , 2, 
+                ifelse(as.numeric(as.character(SDEMT215$EDA))>=30 & as.numeric(as.character(SDEMT215$EDA))<=59 , 3,
+                ifelse(as.numeric(as.character(SDEMT215$EDA))>=60 & as.numeric(as.character(SDEMT215$EDA))<=97 , 4,5))))
+                   
+SDEMT215$EDAD1<-ordered(SDEMT215$EDAD1,levels=c(1,2,3,4,5),labels=c("Niños", "Jovenes", "Adultos", "Adultos Mayores", "N.E."))
+
+table(SDEMT215$EDAD1)
