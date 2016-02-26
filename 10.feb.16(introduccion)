@@ -1,0 +1,55 @@
+#clase miercoles 10/02/2016
+
+#asignacion de variables
+edajuan<-25
+ocupajuan<-"carpintero"
+edasofia<-32
+ocupasofia<- "profesora"
+ls() #mandar a llamar lista
+rm(ocupajuan) #borra la vairbale seleccionada
+edajuan #mandar a llamar un objeto
+sumedad<-edajuan+edasofia #suma edades
+sumedad #llamar objeto
+
+###preguntas
+is.numeric(edajuan)
+is.character(ocupajuan)
+is.na(edajuan)
+is.logical(TRUE)
+class(edajuan)
+length(edajuan)
+edadesjuan<-c(20,25,30,35)
+
+##AYUDA
+help(mean)
+help(lm)
+
+x<-c(1:10,.5)
+
+library() #LIBRERIAS PRECARGADAS
+require() #mandar a llamar precargadas
+install.packages() #bajas la libreria de internet
+
+#ayuda
+#vectores con infop
+edades<-c(32,35,43,25)
+estcony<-c("casado","soltero", "soltero", "union libre")
+sexo<-c(1,2,2,1)
+
+View(sexo) #observas tabla
+sexo[4] #posicion 4
+sexo[c(1,3)] #posicion 1, 3
+
+#bases de datos
+base1<-data.frame(edades,estcony,sexo)
+View(base1) #ver base de datos
+table(base1$sexo) #cuenta cuantos hay de hombres o mujeres (frecuencia)
+attach(base2) #r reconoce esa base como la principal para trabajar
+detach(base2)
+
+#####EJERCICIO BASE DE DATOS
+NOMBRE<-c("RODOLFO", "ALEJANDRO", "ELVIA", "GUILLERMO", "DANIELA", "FERNANDA", "ELISA", "FER" )
+PREPA<-c("PREPA 5", "PREPA TEXCOCO", "PREPA 4", "PREPA 5", "PREPA 4", "CLAUDINA THEVENET", "ISIDRO FABELA", "INSTITUTO METEPEC")
+TIPO_DE_PREPA<-c(1,1,1,1,1,2,2,2)
+SEXO<-c(1,1,2,1,2,2,2,2)
+base2<-data.frame(NOMBRE, PREPA, TIPO_DE_PREPA, SEXO)
