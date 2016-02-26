@@ -1,0 +1,83 @@
+#CLASE 12/02/2016
+
+#importar base ENOE
+install.packages("foreign")
+require(foreign)
+BASE_ENOE<-read.dbf("C:\\Users\\SAQLA-C12\\Desktop\\SDEMT215.dbf")
+table(BASE_ENOE$SEX)
+
+
+
+############
+write()#salvar una base de datos
+y<-seq(1,5,.5) #secuencia, comienza en uno y termina en 5 con salto de .5
+w<-seq(length=9, from=1, to=5)
+
+#matrices
+a<-matrix(data=5,nrow=2,ncol=3)
+a<-matrix(1:6,2,3)
+a<-matrix(0,ncol=3,nrow=2)
+a<-matrix(1:6,2,3,byrow=T)
+a
+t(a) #transpuesta de matriz
+
+#elementos de una matriz
+M<-matrix(1:20,4,5)
+M
+Mrow1<-M[1,] #primer renglon
+M11<-M[1,1] #elemento 1,1
+
+#crear funciones
+x<-5
+mifuncion<-function(x){ x*x }
+z<-mifuncion(x)
+z
+#########################################
+demo(graphics) # te muestra las  graficas de r
+
+### muestras
+datos<-rnorm(100,2,4) #defines muestra normal de media 2 y desvest 4
+datos
+summary(datos) #resumen de la muestra
+y=rnorm(10)
+y
+x1=c(1:10)
+x2=c(rep(1,5),rep(0,5))
+x3=rnorm(10)
+modelo1<-lm(y ~ x1+x2+x3) #genera modelo lineal y ajustas
+modelo1
+summary(modelo1) #resumen del modelo
+anova(modelo1) #genera la tabla anova
+names(modelo1) #ves el nombre de las variables que forman parte del modelo 
+modelo1$residuals #te da los residuales
+
+#modelos 
+
+lm() #modelos de regresion
+glm () #modelos generalizados
+survfit() coxph() #analisis de supervivencia
+prcomp() #analisis multivariado
+hclust() pclclust()
+density() estimadores de kernel
+ts.plot() #time series plot
+acf() 
+
+
+
+####if- else-if
+x<- 5
+if(x<0){
+  print("negativo")
+ }else{
+    print("postivo")
+ }
+
+#otra forma
+x<--1
+if (x<0) y<-(-1)*x else y<-x
+y
+
+#funcion valor absoluto
+vabs<-function(x) if (x<0) return ((-1)*x) else return (x)
+y<-vabs(-2)
+y
