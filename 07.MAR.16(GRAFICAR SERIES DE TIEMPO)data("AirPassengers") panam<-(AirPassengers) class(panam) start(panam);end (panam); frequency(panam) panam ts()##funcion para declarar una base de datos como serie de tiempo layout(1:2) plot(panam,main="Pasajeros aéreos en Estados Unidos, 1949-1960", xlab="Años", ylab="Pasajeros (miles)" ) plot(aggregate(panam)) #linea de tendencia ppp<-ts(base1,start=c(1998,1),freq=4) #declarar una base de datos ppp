@@ -1,0 +1,12 @@
+data("AirPassengers")
+panam<-(AirPassengers)
+class(panam)
+start(panam);end (panam); frequency(panam)
+panam
+ts()##funcion para declarar una base de datos como serie de tiempo
+layout(1:2)
+plot(panam,main="Pasajeros aéreos en Estados Unidos, 1949-1960", xlab="Años", ylab="Pasajeros (miles)" )
+plot(aggregate(panam)) #linea de tendencia
+ppp<-ts(base1,start=c(1998,1),freq=4) #declarar una base de datos
+ppp
+
