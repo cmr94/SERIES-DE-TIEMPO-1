@@ -1,0 +1,21 @@
+###clase 11 de marzo de 2016
+
+#msimular datos
+pob<-sample(100:120,15,replace=F)
+pobts<-ts(pob,frequency = 1,start=2000)
+plot(pobts, main="población 2000-2014",xlab="años",ylab="poblacion")
+plot(aggregate(pobts))
+
+ocu<-ts(read.csv("C:\\Users\\SALA-C19\\Desktop\\ocupa.csv",header=FALSE), frequency=4,start=2005)
+
+plot(ocu)
+plot(aggregate(ocu))
+        
+#########ejercicio###############################
+
+desocupasim<-sample(3:8,44,replace=T)
+simulacion<-ts(desocupasim,frequency=4,start=2005)
+plot(desocupadosts)
+desocupacion<-ts(read.csv("C:\\Users\\SALA-C19\\Desktop\\desocupa.csv",header=FALSE), frequency=4,start=2005)
+plot(cbind(simulacion,desocupacion),main="Población desocupada",xlab="Año",col="blue",col.main="red",col.lab="black")
+
