@@ -1,0 +1,43 @@
+#SERIES DE TIEMPO MULTIPLE
+
+#IVAN RAMON JARDON RODRIGUEZ
+#RODOLFO ANGEL GONZALEZ RAMIREZ
+#IMPORTAR SERIE
+acciones<-ts(read.csv("C:\\Users\\SALA-C3\\Documents\\acciones.csv"), frequency=252,start=start=c(2002,2))
+
+#2)DECLARAR LAS SERIES DE TIEMPO
+kimber<-ts(acciones[,1], frequency=252,start=c(2002,2))
+bimbo<-ts(acciones[,2], frequency=252,start=c(2002,2))
+cemex<-ts(acciones[,3], frequency=252,start=c(2002,2))
+inbursa<-ts(acciones[,4], frequency=252,start=c(2002,2))
+alfa<-ts(acciones[,5], frequency=252,start=c(2002,2))
+ica<-ts(acciones[,6], frequency=252,start=c(2002,2))
+elektra<-ts(acciones[,7], frequency=252,start=c(2002,2))
+
+#3)GRAFICAR LAS VARIABLES SEPARADAS
+layout(1:1)
+plot(kimber,main="Kimber",xlab="años",ylab="precio")
+plot(bimbo,main="bimbo",xlab="años",ylab="precio")
+plot(cemex,main="cemex",xlab="años",ylab="precio")
+plot(inbursa,main="inbursa",xlab="años",ylab="precio")
+plot(alfa,main="alfa",xlab="años",ylab="precio")
+plot(ica,main="ica",xlab="años",ylab="precio")
+plot(elektra,main="elektra",xlab="años",ylab="precio")
+
+#4)GRAFICAR LAS VARIABLES JUNTAS
+layout(1:3)
+plot(kimber,main="Kimber",xlab="años",ylab="precio")
+plot(bimbo,main="bimbo",xlab="años",ylab="precio")
+plot(cemex,main="cemex",xlab="años",ylab="precio")
+plot(inbursa,main="inbursa",xlab="años",ylab="precio")
+plot(alfa,main="alfa",xlab="años",ylab="precio")
+plot(ica,main="ica",xlab="años",ylab="precio")
+plot(elektra,main="elektra",xlab="años",ylab="precio")
+
+#5)Crear serie de tiempo multiple
+seriemultiple<-ts.intersect(kimber,bimbo,cemex,inbursa,alfa,ica,elektra)
+plot(seriemultiple, col="salmon")
+
+
+#6#Graficarlas serie de tiempom multiple en conjunto
+plot(seriemultiple, col="salmon")
