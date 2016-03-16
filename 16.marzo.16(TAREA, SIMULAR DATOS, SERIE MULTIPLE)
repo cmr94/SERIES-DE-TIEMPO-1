@@ -1,0 +1,51 @@
+#IVAN RAMON JARDON RODRIGUEZ
+
+#### Generar 4 objetos con datos aleatorios y que tengan 60 datos
+### dato 1 de numero de profesionistas (mill)rango de 5 a 8
+### dato 2 crec pib rango de 0 a 5
+### dato 3 porcentaje de ocupados rango de 40 a 60
+### dato 4 porcentaje de desocupados rango de 3 a 8
+dato1<-sample(5:8, 60, replace=TRUE)
+dato2<-sample(0:5, 60, replace=TRUE)
+dato3<-sample(40:60, 60, replace=TRUE)
+dato4<-sample(3:8,60, replace=TRUE)
+#### 1) una vez que generen los datos hacer un data frame de los 4 objetos
+base<-data.frame(dato1,dato2,dato3,dato4)
+#### 2) mostrar en consola los primeros 12 y ultimos 12 datos
+base[c(1:12,49:60),seq(1:4)]
+#### 3) convertir los objetos en series de tiempo desde el data frame comezando en 2010 y son datos mensuales
+profesionistas<-ts(base[,1],start=2010, frequency = 12)
+pib<-ts(base[,2],start=2010, frequency = 12)
+ocupados<-ts(base[,3],start=2010, frequency = 12)
+desocupados<-ts(base[,4],start=2010, frequency = 12)
+#### 4) graficar los profesionistas y ocupados en la misma imagen
+layout(1:1)
+layout(1:2)
+plot(profesionistas,main="Profesionistas",xlab="Años")
+plot(ocupados,main="Ocupados",xlab="Años")
+#### 5) graficar pib y desocupados en la misma imagen
+layout(1:1)
+layout(1:2)
+plot(pib,main="pib",xlab="Años")
+plot(desocupados,main="descupados",xlab="Años")
+#### 6) graficar todas juntas
+layout(1:4)
+plot(profesionistas,main="Profesionistas",xlab="Años")
+plot(pib,main="pib",xlab="Años")
+plot(ocupados,main="Ocupados",xlab="Años")
+plot(desocupados,main="descupados",xlab="Años")
+### 7) creaR serie de tiempo multiple!!!!8
+seriemultiple<-ts.intersect(profesionistas,pib,ocupados,desocupados)
+#### 8 ) graficar serie de tiempo multiple 
+plot(seriemultiple, col="salmon", xlab="Año")
+#### 9 ) dividir serie de tiempo y graficar solo el ultimo año...
+seriecortada<-window(seriemultiple,start=2014)
+plot(seriecortada,col="salmon", xlab="Año")
+#### 10 ) analizar las graficas ( si hay alguna tendencia o variacion estacional) (investigar)
+plot(aggregate(seriemultiple))
+#Dados los datos aleatorios no podemos relacionar las graficas entre si. 
+#Se tiene que analizar cada una por separado
+#En la primera grafica (profesionistas) observamos una tendencia a la alza y en 2012 una caida en el numero de profesionistas
+#En la segunda grafica (pib) observamos una tendencia a la baja hasta 2011 , despues un repunte hasta 2012, un periodo estable hasta 2013 y una alza para el ultimo año 
+#En la tercera gráfica (ocupados) observamos una tendencia a la baja hasta 2012 y despues un alza 
+#En la ultima gráfica (desocupados) observamos una tendencia a la baja hasta 2011, un periodo hasta 2011 de alza, luego de baja hasta 2013 y un repunte en el ultimo año
