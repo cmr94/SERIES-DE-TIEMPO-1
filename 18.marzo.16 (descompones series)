@@ -1,0 +1,11 @@
+desocupa<-sample(3:8,60,replace=TRUE)
+tdesoc<-ts(desocupa, start=2010, frequency=4)
+plot(tdesoc)
+tdesoc.de<-  decompose(tdesoc)
+names(tdesoc.de)
+plot(tdesoc.de)
+trend<-tdeco.de$trend
+
+tdesoc.dem<-decompose(tdesoc,type="mult")
+plot(tdesoc.dem)
+
