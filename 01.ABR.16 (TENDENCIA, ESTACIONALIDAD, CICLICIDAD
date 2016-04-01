@@ -1,0 +1,81 @@
+#CLASE 1 DE ABRIL 2016
+
+####Una vez que logramos descomponer la st en diversos los elementos de estacionalidad 
+#y tendencia hay que desestacionalizar la st y eliminar la tendencia ######
+
+#USAMOS EL MODELO ADITIVO
+#cuando la tendencia se incrementa y la estacionaldiad se mantiene.
+#la magnitud de las fluctuaciones estacionales de la serie no varia al hacerlo la tendencia
+
+
+#USAMOS EL MODELO MULTIPLICATIVO
+#cuando la magnitud de las fluctuaciones estacionales de la serie decrece y crece 
+#proporcionalmente con los crecimientos y decrecimientos de la tendencia respectivamente.
+
+#### EXISTE TENDENCIA CUANDO existe un patron en los datos  a largo plaza ya sea 
+### que aumenta o disminuye los datos 
+##### la estacionalidad existe cuando 
+### la ST cuando es influenciado por factores estacionales (por ejemplo, la
+###trimestre del año , el mes , o el día de la semana).
+### existen componente de ciclico en los datos cuando 
+##se detectan  incrementos y caídas que no son de tiempo determinado
+##(duración por lo general de al menos 2 años ).
+
+###3 DE estos 3 elemenos normalmente existen confusiones para detectarlos entre 
+### la estacionalidad y el componente ciclico
+###Principales diferencias entre estos dos componentes 
+# 1( patrón estacional longitud constante ; patrón cíclico Longitud variable
+# 2(  duración media del componente ciclico  más largo que la longitud del patrón estacional)
+#3) magnitud de ciclico más variable que magnitud del patrón estacional
+#4)  El momento de picos y caidas es predecible con los datos estacionales 
+#, pero impredecible a largo plazo con datos cíclicos .
+
+install.packages("fpp")
+require(fpp)
+plot(window(elec,start=1980),ylab="GWh",xlab="Year",main="Australian electricity production")
+##ESTACIONALIDAD, TENDENCIA Y NO CICLICO
+plot(bricksq,ylab="million units",xlab="Year",main="Australian clay brick production")
+###ESTA Y CICLO NO MUCHO TENDENCIOA
+plot(hsales,main="Sales of new one-family houses, USA",ylab="Total sales",xlab="Year")
+#NO ESTA NI TENDENCIA, POSIBLE CICLO
+###############3EJEMPLOS GRAFICAS DETECTAR TENDENCIA, ESTACIONALIDAD Y CICLO
+
+#NETFLIX
+NETFLIX <- read.csv ("C:\\Users\\SALA-C20\\Desktop\\NETFLIX.csv", header = T)
+NETFLIXts <- ts(NETFLIX[,5], start = 2002, frequency = 12)
+plot(NETFLIXts,main="Valor Acciones NETFLIX", ylab="valor cierre")
+
+#SE OBSERVA UNA TENDENCIA A LA ALZA A PARTIR DE 2012
+#NO ESTACIONALIDAD
+#POSIBLE CICLO 
+
+seasonplot(NETFLIXts,year.labels=TRUE,main="Valor acciones NETFLIX",ylab="valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+monthplot(NETFLIXts,,ylab="valor cierre",xlab="Month",main="Valor acciones NETFLIX")
+
+#FEMSA
+FEMSA <- read.csv ("C:\\Users\\SALA-C20\\Desktop\\FEMSA.CSV", header = T)
+FEMSAts <- ts(FEMSA[,5], start = 2002, frequency = 12)
+plot(FEMSAts,main="Valor Acciones FEMSA", ylab="Valor cierre")
+
+#SE OBSERVA TENDENCIA A TROZOS DE 2000 A 2009 (CRISIS ECONOMICA) Y DE 2009 A 2015
+#EXISTE UN CICLO POR EL CAMBIO ABRUPTO EN 2009
+#NO ESTACIONALIDAD
+
+seasonplot(FEMSAts,year.labels=TRUE,main="Valor acciones FEMSA",ylab="Valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+monthplot(FEMSAts,,ylab="valor cierre",xlab="Month",main="Valor acciones FEMSA")
+
+ALSEA <- read.csv ("C:\\Users\\SALA-C20\\Desktop\\ALSEA.CSV", header = T)
+ALSEAts <- ts(ALSEA[,5], start = 2002, frequency = 12)
+plot(ALSEAts,main="Valor Acciones ALSEA", ylab="Valor cierre")
+
+#SE OBSERVA TENDENCIA A TROZOS DE 2000 A 2009 (CRISIS ECONOMICA) Y DE 2011 A 2015
+#EXISTE UN CICLO POR EL CAMBIO ABRUPTO EN 2009
+#NO ESTACIONALIDAD
+
+seasonplot(ALSEAts,year.labels=TRUE,main="Valor acciones ALSEA",ylab="Valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+monthplot(ALSEAts,,ylab="valor cierre",xlab="Month",main="Valor acciones ALSEA")
+
+#Graficar las 3 juntas y guardarlo en PDF
+pdf(file="GRAFICAS ACCIONES")
+ts.plot(NETFLIXts,FEMSAts,ALSEAts,col=2:4, main="NETFLIX(ROJO), FEMSA(VERDE), ALSEA(AZUL)", ylab="Cierre")
+dev.off()
