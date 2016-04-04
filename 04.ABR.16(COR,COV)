@@ -1,0 +1,114 @@
+#clase 4/04/2016
+
+
+#######################CORRELACION Y COVARIANZA
+#Covarianza y correlación : medida del grado
+#relación lineal entre dos variables (y Y x).
+### auto covarianza y auto correlaccion
+###3 Autocovariancia y autocorrelación : medida
+#relación lineal entre los valores retardados de una
+#series de tiempo y.
+# se mide  la relación entre: yt and yt−1
+#yt and yt−2
+#yt and yt−3, etc.
+
+###3 para desestacionalizar y eliminar la tendencia necesitamos conocer
+#la correlacion delas variables para realizar mejores pronosticos
+#de nuestra serie de tiempo 
+
+### en muchas casos las variables estan correlacionadas...
+#entonces si nosotros logramos identificar la correlacion 
+#podemos mejorar los pronosticoa si las correlaciones son altasst 
+### para la ST observada 
+###Autocorrelación
+# a veces sucede que  los valores que toma una variable en el tiempo no
+#son independientes entre sí, sino que un valor determinado 
+#depende de los valores anteriores,
+### para obtener la correlación se necesita obytener primero la covarianza
+#### 
+############ covarianza 
+#ejercicio en r verifiquen que la formula de la covarianza
+# y la correlacion den e mismo resultado que las funciones cov(x,y) 
+#y cor (x,y)
+## la covarianza es una medida de asociación entre dos variables
+#Cor(x, y) = Cov(x, y) \ sd(x)sd(y)
+### Cov(x, y) =suma((xi − x (media))(yi − y ((media))))/(n − 1)
+#ejemplo en R
+ocu<-ts(read.csv(("C:\\Users\\SALA-C7\\Desktop\\3 indicadores.csv"), header = T),frequency=4, start=2005);
+asal <- ocu [,1]
+desoc <- ocu [,2]
+n<- length(asal)
+sum(((asal) - mean(asal))*(desoc - mean(desoc))) / (n - 1) ## calculamos la covarianza  con formula
+cov(asal, desoc) ### funcion de R para obtener la covarianza
+## la correlacion tambien es una medida de relacion entre dos variables que permite 
+#Cor(x, y) = Cov(x, y) \ sd(x)sd(y)
+
+cov(asal,desoc) / (sd(asal)*sd(desoc)) #calculamos la correlacion con formula
+
+cor(asal,desoc) # funcion de R para obtener la correlacion 
+
+EJERCICIo 
+
+### 1) ANALIZAR LOS AÑOS DE LAS 3 EMPRESAS ELEGIDAS (seasonplot) Y
+#ELEEGIR LOS 3 AÑOS QUE UBIQUEN CON ESTACIONALIDAD, CICLO O TENDENCIA....
+#INTERPRETAR ESTOS 3 AÑOS
+#### 2) CACULAR CON LA FORMULA Y LA FUNCION DE COVARIANZA Y CORRELACION EN 
+#### LA COMBINACIÓN DE LAS 3 EMPRESAS, ES DECIR, 
+#### EMPRESA 1 = X, EMPRE2 = Y Y EMPRE3 = Z, CALCULAR LAS CORRELACION DE
+## cor (x,y), cor(y,z) y cor (x,z) para hacerlas "compatibles" uutilicen
+### el window
+
+
+#EJERCICIO
+
+#SANTANDER
+santander<-(read.csv("C:\\Users\\SALA-C19\\Desktop\\SANTANDER.csv",header=T))
+santanderts<-ts(santander[,5],start = 2000,frequency = 12)
+seasonplot(santanderts,year.labels=TRUE,main="Valor acciones SANTANDER",ylab="Valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+
+#BANORTE
+banorte<-(read.csv("C:\\Users\\SALA-C19\\Desktop\\BANORTE.csv",header=T))
+banortets<-ts(banorte[,5],start = 2000,frequency = 12)
+seasonplot(banortets,year.labels=TRUE,main="Valor acciones BANORTE",ylab="Valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+#INBURSA
+inbursa<-(read.csv("C:\\Users\\SALA-C19\\Desktop\\INBURSA.csv",header=T))
+inbursats<-ts(inbursa[,5],start = 2000,frequency = 12)
+seasonplot(inbursats,year.labels=TRUE,main="Valor acciones INBURSA",ylab="Valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+
+#COVARIANZAS
+
+#MISMA LONGITUD=MISMOS PERIODOS
+
+santanderts1<-window(santanderts, start=2000, end=2015)
+banortets1<-window(banortets, start=2000, end=2015)
+inbursats1<-window(inbursats, start=2000, end=2015)
+
+#verificar su longitud
+length(santanderts1)
+length(banortets1)
+length(inbursats1)
+
+#calcular covarianzas
+n=length(santanderts1)
+
+    #covarianza(santander,banorte)
+  sum(((santanderts1) - mean(santanderts1))*(banortets1 - mean(banortets1))) / (n - 1) ## calculamos la covarianza  con formula
+  cov(santanderts1, banortets1)
+  cor(santanderts1, banortets1)
+
+  #covarianza(santander,inbursa)
+  sum(((santanderts1) - mean(santanderts1))*(inbursats1 - mean(inbursats1))) / (n - 1) ## calculamos la covarianza  con formula
+  cov(santanderts1, inbursats1)
+  cor(santanderts1, inbursats1)
+  
+  #covarianza(inbursa,banorte)
+  sum(((inbursats1) - mean(inbursats1))*(banortets1 - mean(banortets1))) / (n - 1) ## calculamos la covarianza  con formula
+  cov(inbursats1, banortets1)
+  cor(inbursats1, banortets1)
+  
+
+
+
+
+
+
