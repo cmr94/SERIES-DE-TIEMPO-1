@@ -1,0 +1,141 @@
+################ REPASO EXAMEN######################33
+###############EXAMEN 18 DE ABRIL #########################
+############# MANEJO DE BASES DE DATOS EN R####################
+
+#### generar una base de datos  y declarar data.frame3###
+#¿que es un data.frame en R?
+#¿para que es la c?
+
+nombres <- c("Rodolfo Angel", "Alejandro Arevalo", "Ana Elvia", "Guillermo Rosas", "Daniela", "Fernanda", "Elisa", "Fernanda")
+prepa <- c("Prepa 5", "Prepa Texcoco", "Prepa 4", "Prepa 5", "Prepa 4", "Claudina Thevenet", "Isidro Fabela", "Instituto Metepec")
+tipop <- c(1,1,1,1,1,2,2,2) #DONDE 1 INDICA PUBLICA Y 2 PRIVADA
+sexo <- c(1,1,2,1,2,2,2,2) #DONDE 1 INDICA HOMBRE Y 2 MUJER
+tabla <- data.frame(nombres,prepa,tipop,sexo)
+tabla
+View(tabla)
+
+##importamos bases de datos##########
+require(foreign)
+baseinegi<-read.dbf("C:\\Users\\SALA-C26\\Downloads\\sdemt205.dbf")
+
+######################### CAMBIAR A NUMERICO LA VARIABLE#########33
+#########3 ES IMPORTANTE CUANDO CAMBIEN A NUMERICO EN UNA NUEVA VARIABLE ¿PORQUE?
+baseinegi$R_DEF1 <- as.numeric(as.character(baseinegi$R_DEF))
+baseinegi$C_RES1 <- as.numeric(as.character(baseinegi$C_RES))
+##########################USO DE SUBSET################################3
+precod <-subset (baseinegi, ((R_DEF1 == 0) & (C_RES1 == 1 |C_RES1 == 3) & (EDA1 >= 15 
+                                                                           & EDA1 <=98 )))
+precod1 <-subset (baseinegi, ((R_DEF1 == 0) & (C_RES1 == 1 |C_RES1 == 3) &
+                                (EDA1 >= 15 & EDA1 <=98 )),select = c(EDA,SEX,HRSOCUP, 
+                                                                      
+                                                                      
+                                                                      ####################USO DE ATTACH E HISTOGRAMAS################                                                                                                                                 CLASE2, CLASE1, CLASE3))
+                                                                      attach(precod)
+                                                                      CLASE2V1 <-table(CLASE2)
+                                                                      CLASE2V1
+                                                                      hist (CLASE2,)
+                                                                      hist(CLASE2, main="Grafica 1, Distribucion de la
+                                                                           población de 15 años o mas, 2015",
+                                                                           xlab ="Tipo de ocupada", ylab ="Poblacion miles",
+                                                                           xlim = c (1,4), ylim = c(0,200000), border = T, pch=18,
+                                                                           col = c("orange","green","purple","pink"))
+                                                                      
+                                                                      ######################333PONDERAR CASOS #####################
+                                                                      install.packages("questionr")
+                                                                      require(questionr)
+                                                                      c1<-wtd.table(sdemt215$SEX,weights = sdemt215$FAC) ###factor de expanSión 
+                                                                      
+                                                                      ##############PONDERAR CASOS Y SACAR PORCENTAJES######
+                                                                      tabrama<-wtd.table(sdemt215$SEX, sdemt215$EDA,weights = sdemt215$FAC)
+                                                                      c1.1<-round((tabrama/margin.table(tabrama))*100,2)
+                                                                      
+                                                                      ############################ ETIQUETAR ###################################333
+                                                                      sdemt215$SEX<-ordered(sdemt215$SEX,levels=c(1,2),labels=c("HOMBRES","MUJERES"))
+                                                                      
+                                                                      
+                                                                      ######################RECODIFICAR 2 METODOS #################
+                                                                      #metodo 1
+                                                                      SDEMT215$CLASE2.1[as.numeric(SDEMT215$CLASE2)>=0 & as.numeric(SDEMT215$CLASE2)<=2]<-1
+                                                                      SDEMT215$CLASE2.1[as.numeric(SDEMT215$CLASE2)>=3 & as.numeric(SDEMT215$CLASE2)<=4]<-2
+                                                                      #METODO 2 
+                                                                      "metodo 2"
+                                                                      attach(SDEMT215)
+                                                                      SDEMT215$CLASE2.2<-ifelse(as.numeric(CLASE2)>=1 & as.numeric(CLASE2)<=2,1, 
+                                                                                                ifelse(as.numeric(CLASE2)==3, 2 , 3)) 
+                                                                      
+                                                                      
+                                                                      ##########################33 SERIES DE TIEMPO ################33
+                                                                      ### 1)Simular la Tasa de desocupación ,3% a 8%,2005, 40 datos,  trimestral
+                                                                      desoc<-sample(3:8,44,replace = T)### En este caso , es TRUE porque si queremos un reemplazo
+                                                                      tdesoc<-ts(desoc,frequency = 4,start = (2005))
+                                                                      tdesoc
+                                                                      ### declaras series de tiempo con frequency, start funcion ts
+                                                                      ST<-ts(todo, frequency=12, start=2010)
+                                                                      ######33graficar la serie de tiempo con 
+                                                                      plot(ST,xlab="años 2010-2014", ylab="numero de profesionales", main="ST profesionales ")
+                                                                      ### con la del INEGI
+                                                                      
+                                                                      
+                                                                      #seleccionar los casos del 3 al 58 de la base y convertirla en serie de tiempio
+                                                              
+                                                                      #################### serie de tiempo múltiple ###################333333
+                                                                      prof<- sample(5:8,60, replace=T)
+                                                                      cpib<-sample(0:5,60, replace=TRUE)
+                                                                      ocupa<-sample(40:60,60, replace=TRUE)
+                                                                      desocupa<-sample(3:8, 60, replace=TRUE)
+                                                                      prof1<-ts(todo[,1], frequency=12, start=2010)
+                                                                      cpib1<-ts(todo[,2], frequency=12, start=2010)
+                                                                      ocupa1<-ts(todo[,3], frequency=12, start=2010)
+                                                                      desocupa1<-ts(todo[,4], frequency=12, start=2010)
+                                                                      seriemultip<-ts.intersect(prof1, cpib1, ocupa1, desocupa1)
+                                                                      
+                                                                      #describir 3 agrumentos de la funcion ts.intersect
+                                                                      ######################3 separar st ###################3333
+                                                                      
+                                                                      
+                                                                      seriem05.09<-window(seriemultiple,start=c(2005,1), end=c(2009,4))
+                                                                      seriem10.15<-window(seriemultiple,start=c(2010,1), end=c(2015,4))
+                                                                      plot(seriem05.09,main="serie de tiempo multiple de toluca  2005-2009", xlab="años", col=789)
+                                                                      plot(seriem10.15,main="serie de tiempo multiple de toluca  2010-2015", xlab="años", col=622)
+                                                                      ##para saber donde empieza y donde termina 
+                                                                      start (seriemultiple)
+                                                                      end (seriemultiple)
+                                                                      
+                                                                      
+                                                                      ######################3 desscomposición de st ####################333
+                                                                      
+                                                                      tdesoc.de<-decompose(tdesoc)####por default es el modelo aditivo
+                                                                      names(tdesoc.de)### trend= tendencia(Mt), seasonal=efecto estacional(St) random=error(Zt)
+                                                                      plot(tdesoc.de, col="salmon", xlab="años", ylab="tasa desocupacion")
+                                                                      Trend<-tdesoc.de$trend
+                                                                      Season<-tdesoc.de$seasonal
+                                                                      Trend
+                                                                      
+                                                                      
+                                                                      ################ detectar tendencia, estacionalidad y ciclo con gráficas#####
+                                                                      
+                                                                      ######tendencia incremento o disminución clara
+                                                                      ###### estacionalidad ... existe algun efecto temporal (diario, semanal, mensual, etc)
+                                                                      #### ciclo.... cuando hay cambios abruptos en la st 
+                                                                      
+                                                                      
+                                                                      ###############3 correlacion y covarianza y funcion de autocorrelacion
+                                                                      
+                                                                      sum((x - mean(x))*(y - mean(y))) / (n - 1) #Cformula
+                                                                      cov(x, y) #Funcion de R para obtener la covarianza
+                                                                      
+                                                                      cov(x,y) / (sd(x)*sd(y)) #formula
+                                                                      cor(x,y) #Funcion de R para obtener la correlacion 
+                                                                      
+                                                                      
+                                                                      ## funcion de autocorrelacion
+                                                                      #paqueteria fpp forecast
+                                                                      Acf(nfixts)
+                                                                      xx<- Acf(nfixts, main="Anetflix")
+                                                                      xx$acf ### conocemos el valor de la autocorrelacion en cada tiempo
+                                                                      ###valores de autocorrelacion alta y positiva existe estacionalidad en la st
+                                                                      
+                                                                      ### correlograma
+                                                                      ### grafica en el que se expone 
+                                                                      Status API Training Shop Blog About
+                                                                      © 2016 GitHub, Inc. Terms Privacy Security Contact Help
