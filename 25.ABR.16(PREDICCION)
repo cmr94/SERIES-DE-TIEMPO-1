@@ -1,0 +1,108 @@
+#El ruido blanco son una serie de v.a. incorreladas (cov (x,y) = 0), con media 0 y varianza finita
+#Lo ideal del ruido blanco es que la autocorrelación sea cercana a cero…
+#En la mayoría de las series de tiempo las autocorrelaciones no son iguales a cero, 
+#debido a que hay una cierta variación aleatoria…. 
+#Para una serie de ruido se espera que 95% de los picos en la funcion de autocorrelacióndebe ser +- 2/raiz(T)… 
+#donde T es igual a la longitud de la serie de tiempo… para trazar estos límites en un gráfico de la ACF…
+#Una manera de evaluar si una ST es ruido blanco es si aproximadamente más de 5 % de las lineas se encuentran 
+#fuera de estos límites entonces ST problabemente no es ruido blanco….
+#Algunos métodos de pronóstico simples
+#Algunos métodos de predicción son muy simples y eficaces… 
+#Se presentan cuatro metodos como introducción para metodos mas complejos… 
+#En muchos casos los métodos se eligen dependiendo del tipo de serie de tiempo que elijamos… 
+
+#EL METODO DE LA MEDIA
+
+#En este metodo las proyecciones de los valores futuros son iguales a la media de los datos históricos. 
+#Si dejamos que los datos históricos se denota por y1 , ... , yT entonces podemos escribir la proyeccion de este 
+#metodo mediante: 
+
+#ŷ T+h|T=y barra=(y1+⋯+yT)/T.
+
+La notación  ŷ T+h|T es una abreviatura para estiumar  yT+h|T basado en los datos de  y1,…,yT.
+
+En R la función para este método es 
+>meanf (st, h)… st es la serie de tiempo y h es el número de periodos a pronosticar
+
+En este sentido, la predicción para valores no observados es el promedio de los valores que se han observado. 
+
+Metodo ingenuo 
+Las previsiones se fijan por el valor de la última observación. Es decir, las previsiones de todos los valores futuros se fijan  por  yt , donde yt es el último valor observado. Este método funciona muy bien para muchas series de tiempo económico y financiero .
+
+R 
+Para su calculo en R la función es 
+naive(st, h)
+rwf(st, h) # Alternative
+
+3) metodo ingenuo estacional….
+
+Método útil para los datos altamente estacionales .
+En este se  pronostica con el mismo valor observado del mismo periodo del año (por ejemplo , el mismo mes del año anterior 
+Formalmente se define : 
+
+yT+h−km where m= period temporal  y  k=⌊(h−1)/m⌋+1
+
+Ejemplos métodos  ingenuo estacional…  con datos mensuales , el pronóstico para todos los futuros valores de marzo es igual al último valor observado de marzo. Con los datos trimestrales, la previsión de todos los valores futuros trimestre 2 es igual al último valor de trimestre2 observado (donde trimestre2 significa el segundo trimestre). 
+
+Cálculo R
+
+La función es 
+snaive(st, h)
+	4 ) Método de la deriva…
+	Una variación en el método ingenuo es permitir que las proyecciones puedan aumentar o disminuir  para aumentar o disminuir con el tiempo, donde la cantidad de aumento o disminución dependen del cambio promedio observado en los datos históricos. 
+
+
+rwf(y, h, drift=TRUE)
+
+
+####################################################################################################
+
+
+
+x <- ts(rnorm(100))
+plot(x, main="White noise")
+Acf (x)
+
+
+
+labo <- read.csv ("/home/sgr/Dropbox/Dropbox1/fac economia/actuaria/series de tiempo/desoc, asal y til1.csv")
+deso <- ts(labo [,1], start  = 2005, frequency = 4)
+plot (deso)
+Acf (deso)
+meanf (deso, h)
+desopro <- meanf (deso, 3)
+plot (desopro)
+# deso es la ST 
+### el número de datos a proyectar en este caso elegí h = 3
+
+########## ingenuo
+desonai <- naive(deso, 3)
+plot (desonai)
+rwf(deso, 3) # Alternativo
+
+### ingenuo estacional
+desosnai <- snaive(deso, 3)
+desosnai
+plot(desosnai)
+help (snaive)
+
+########## metodo de la deriva
+
+desoder <- rwf(deso, 3, drift = T)
+desoder
+plot (desoder)
+rwf(st, h, drift=TRUE)
+
+
+############# EJEMPLOS######################33
+deso1 <- window(deso,start=2005,end=2010)
+desoaj1 <- meanf(deso1, h=4)
+desoaj2 <- naive(deso1, h=4)
+desoaj3 <- snaive(deso1, h=4)
+
+plot(desoaj1, plot.conf=FALSE, 
+     main="Proyección tasas de desempleo trimestre")
+lines(desoaj2$mean,col=2)
+lines(desoaj3$mean,col=3)
+legend("topleft",lty=1,col=c(1,2,3),
+       legend=c("metodo media","metodo ingenuo","metodo ingenuo estacional"))
