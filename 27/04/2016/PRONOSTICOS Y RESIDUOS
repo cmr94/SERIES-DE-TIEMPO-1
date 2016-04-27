@@ -1,0 +1,34 @@
+#install.packages("fpp")
+install.packages("forecast")
+library(fpp)
+require(forecast)
+
+PIB<-read.csv("C:\\Users\\SALA-C19\\Desktop\\PIB.csv", header=T)
+PIB<-data.frame(PIB)
+PIBTS<-ts(PIB[,2],start=1993, frequency = 4)
+PIBTS
+View(PIBTS)
+plot(PIBTS)
+
+Acf(PIBTS)
+
+
+PIBTSPRO<-meanf(PIBTS,4)
+plot(PIBTSPRO)
+PIBTSNAI<-naive(PIBTS,4)
+plot(PIBTSNAI)
+PIBTSSNAI<-snaive(PIBTS,4)
+plot(PIBTSSNAI)
+PIBTSDER<-rwf(PIBTS,4)
+plot(PIBTSDER)
+
+PIBTSPRO
+
+evalmed<-accuracy(PIBTSPRO)
+evaling<-accuracy(PIBTSNAI)
+evalsnai<-accuracy(PIBTSSNAI)
+evalder<-accuracy(PIBTSDER)
+evalmed
+evaling
+evalsnai
+evalder
